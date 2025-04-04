@@ -1,0 +1,82 @@
+---
+title: "pop_up_graph"
+format: html
+editor: visual
+---
+
+## Quarto / Markdown Full screen graphs  / Pop Ups
+
+Sometimes yopu have a big graph and you don't want to bombard your stakeholder with a massive graph but give them the otption to go more detailed if they want to.  
+
+Or just have some content that is optional content on a popup
+
+# Full Screen graph
+
+Lets make a little graph and then make a button to make it big screen.
+
+```{r}
+#| echo: false
+#| warning: false
+
+library(tidyverse)
+library(gt)
+
+plot <- starwars |>
+  filter(mass < 1000) |>
+  ggplot(aes(x = height,
+             y = mass,
+             colour = gender)) +
+  geom_point() +
+  theme_minimal()
+
+plot
+
+```
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#examplePlot">See in Full Screen</button>
+
+<div class="modal fade" id="examplePlot" tabindex="-1"><div class="modal-dialog modal-dialog-centered p-8" style="max-width: 90%"><div class="modal-content">
+
+```{r}
+#| echo: false
+#| warning: false
+#| out-width: "75%"
+plot
+```
+
+</div></div></div>
+
+# Independent popouts
+
+Say we want the above but stick a table in it
+
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleTable">Click for table</button>
+
+<div class="modal fade" id="exampleTable" tabindex="-1"><div class="modal-dialog modal-dialog-centered p-8" style="max-width: 90%"><div class="modal-content">
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| out-width: "75%"
+starwars |> 
+  slice_head(n=10) |>
+  select (name,
+          height,
+          mass,
+          hair_color,
+          skin_color, 
+          gender,
+          homeworld
+  ) |>
+          gt()
+```
+
+
+</div></div></div>
+
+All just additional touches of sparkle you can add to a markdown or quarto report.
+
+
+
